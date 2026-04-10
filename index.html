@@ -1,7 +1,54 @@
+<!DOCTYPE html>
 <html>
-  <head>
-  </head>
-  <body>
-    Hello demon
-  </body>
+<head>
+  <title>3D Demo</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      font-family: Arial, sans-serif;
+    }
+
+    .scene {
+      perspective: 1000px;
+    }
+
+    .card {
+      width: 300px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 28px;
+      backdrop-filter: blur(10px);
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .card:hover {
+      transform: rotateY(20deg) rotateX(10deg) scale(1.05);
+    }
+
+    .text {
+      transform: translateZ(50px);
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="scene">
+    <div class="card">
+      <div class="text">Hello Demon 😈</div>
+    </div>
+  </div>
+</body>
 </html>
