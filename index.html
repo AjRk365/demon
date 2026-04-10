@@ -1,54 +1,144 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>3D Demo</title>
+  <title>Golden 3D Effect</title>
+
   <style>
     body {
       margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      overflow: hidden;
+      background: black;
       font-family: Arial, sans-serif;
     }
 
+    /* ✨ Glitter particles */
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: gold;
+      border-radius: 50%;
+      pointer-events: none;
+      box-shadow: 0 0 10px gold, 0 0 20px gold;
+      animation: fadeOut 1s linear forwards;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+    }
+
+    /* ♾️ Infinity SVG */
+    .infinity {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      height: 200px;
+      opacity: 0.2;
+    }
+
+    .infinity path {
+      fill: none;
+      stroke: gold;
+      stroke-width: 4;
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: draw 5s linear infinite, glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes draw {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes glow {
+      from {
+        filter: drop-shadow(0 0 5px gold);
+      }
+      to {
+        filter: drop-shadow(0 0 20px gold);
+      }
+    }
+
+    /* 🧊 3D card */
     .scene {
       perspective: 1000px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     .card {
       width: 300px;
       height: 200px;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 215, 0, 0.1);
       border-radius: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
-      color: white;
+      color: gold;
       font-size: 28px;
       backdrop-filter: blur(10px);
       transform-style: preserve-3d;
-      transition: transform 0.5s ease;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    }
-
-    .card:hover {
-      transform: rotateY(20deg) rotateX(10deg) scale(1.05);
+      transition: transform 0.2s ease;
+      box-shadow: 0 20px 40px rgba(255,215,0,0.3);
     }
 
     .text {
       transform: translateZ(50px);
       font-weight: bold;
     }
+
   </style>
 </head>
 
 <body>
+
+  <!-- ♾️ Infinity Symbol -->
+  <svg class="infinity" viewBox="0 0 400 200">
+    <path d="M100,100 C100,20 300,20 300,100 C300,180 100,180 100,100
+             M100,100 C100,20 300,20 300,100" />
+  </svg>
+
+  <!-- 3D Card -->
   <div class="scene">
-    <div class="card">
+    <div class="card" id="card">
       <div class="text">Hello Demon 😈</div>
     </div>
   </div>
+
+  <script>
+    // ✨ GOLD GLITTER TRAIL
+    document.addEventListener("mousemove", (e) => {
+      const particle = document.createElement("div");
+      particle.className = "particle";
+
+      particle.style.left = e.pageX + "px";
+      particle.style.top = e.pageY + "px";
+
+      document.body.appendChild(particle);
+
+      setTimeout(() => {
+        particle.remove();
+      }, 1000);
+    });
+
+    // 🎯 3D tilt with mouse
+    const card = document.getElementById("card");
+
+    document.addEventListener("mousemove", (e) => {
+      const x = (window.innerWidth / 2 - e.pageX) / 25;
+      const y = (window.innerHeight / 2 - e.pageY) / 25;
+
+      card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+    });
+  </script>
+
 </body>
 </html>
